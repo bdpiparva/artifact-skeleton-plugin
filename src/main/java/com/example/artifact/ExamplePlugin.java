@@ -16,7 +16,7 @@
 
 package com.example.artifact;
 
-import com.example.artifact.executors.PublishArtifactExecutor;
+import com.example.artifact.executors.*;
 import com.thoughtworks.go.plugin.api.GoApplicationAccessor;
 import com.thoughtworks.go.plugin.api.GoPlugin;
 import com.thoughtworks.go.plugin.api.GoPluginIdentifier;
@@ -43,15 +43,15 @@ public class ExamplePlugin implements GoPlugin {
         try {
             switch (Request.fromString(request.requestName())) {
                 case REQUEST_STORE_CONFIG_METADATA:
-                    return null;
+                    return new GetStoreConfigMetadataExecutor().execute();
                 case REQUEST_STORE_CONFIG_VIEW:
-                    return null;
+                    return new GetStoreConfigViewExecutor().execute();
                 case REQUEST_STORE_CONFIG_VALIDATE:
                     return null;
                 case REQUEST_PUBLISH_ARTIFACT_METADATA:
-                    return null;
+                    return new GetPublishArtifactConfigMetadataExecutor().execute();
                 case REQUEST_PUBLISH_ARTIFACT_VIEW:
-                    return null;
+                    return new GetPublishArtifactViewExecutor().execute();
                 case REQUEST_PUBLISH_ARTIFACT_VALIDATE:
                     return null;
                 case REQUEST_FETCH_ARTIFACT_METADATA:

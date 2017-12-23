@@ -1,0 +1,5 @@
+<div class="form_item_block">
+    <label ng-class="{'is-invalid-label': GOINPUTNAME[DummyField].$error.server}">Dummy Field:<span class='asterix'>*</span></label>
+    <input ng-class="{'is-invalid-input': GOINPUTNAME[DummyField].$error.server}" type="text" ng-model="DummyField" ng-required="true" placeholder="value"/>
+    <span class="form_error form-error" ng-class="{'is-visible': GOINPUTNAME[DummyField].$error.server}" ng-show="GOINPUTNAME[DummyField].$error.server">{{GOINPUTNAME[DummyField].$error.server}}</span>
+</div>
