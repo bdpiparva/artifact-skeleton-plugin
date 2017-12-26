@@ -22,13 +22,13 @@ import com.google.gson.JsonObject;
 import com.thoughtworks.go.plugin.api.response.DefaultGoPluginApiResponse;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
 
-public class GetAuthConfigViewExecutor implements RequestExecutor {
+public class GetStoreConfigViewExecutor implements RequestExecutor {
     private static final Gson GSON = new Gson();
 
     @Override
     public GoPluginApiResponse execute() {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("template", Util.readResource("/auth-config.template.html"));
+        jsonObject.addProperty("template", Util.readResource("/store-config.template.html"));
         DefaultGoPluginApiResponse defaultGoPluginApiResponse = new DefaultGoPluginApiResponse(200, GSON.toJson(jsonObject));
         return defaultGoPluginApiResponse;
     }

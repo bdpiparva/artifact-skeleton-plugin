@@ -22,19 +22,19 @@ import java.util.*;
 
 public class MetadataHelper {
 
-    public static List<ProfileMetadata> getMetadata(Class<?> clazz) {
+    public static List<ConfigMetadata> getMetadata(Class<?> clazz) {
         return buildMetadata(clazz);
     }
 
-    private static List<ProfileMetadata> buildMetadata(Class<?> clazz) {
+    private static List<ConfigMetadata> buildMetadata(Class<?> clazz) {
         Field[] fields = clazz.getDeclaredFields();
-        List<ProfileMetadata> metadata = new ArrayList<>();
+        List<ConfigMetadata> metadata = new ArrayList<>();
         for (Field field : fields) {
             ProfileField profileField = field.getAnnotation(ProfileField.class);
             if (profileField != null) {
                 final FieldMetadata fieldMetadata = new FieldMetadata(profileField.required(), profileField.secure(), profileField.type());
-                final ProfileMetadata<FieldMetadata> profileMetadata = new ProfileMetadata<>(profileField.key(), fieldMetadata);
-                metadata.add(profileMetadata);
+                final ConfigMetadata<FieldMetadata> configMetadata = new ConfigMetadata<>(profileField.key(), fieldMetadata);
+                metadata.add(configMetadata);
             }
         }
         return metadata;
@@ -44,7 +44,7 @@ public class MetadataHelper {
         List<Map<String, String>> result = new ArrayList<>();
         List<String> knownFields = new ArrayList<>();
 
-        for (ProfileMetadata field : getMetadata(clazz)) {
+        for (ConfigMetadata field : getMetadata(clazz)) {
             knownFields.add(field.getKey());
 
             Map<String, String> validationError = field.validate(configuration.get(field.getKey()));

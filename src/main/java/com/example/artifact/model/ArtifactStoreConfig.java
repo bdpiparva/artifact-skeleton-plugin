@@ -22,8 +22,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class ArtifactStoreConfig {
     @Expose
-    @SerializedName("dummy_field")
-    @ProfileField(key = "dummy_field", required = true, secure = false)
+    @SerializedName("DummyField")
+    @ProfileField(key = "DummyField", required = true, secure = false)
     private String dummyField;
 
     public ArtifactStoreConfig() {

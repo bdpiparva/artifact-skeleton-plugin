@@ -23,7 +23,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProfileMetadata<T extends Metadata> {
+public class ConfigMetadata<T extends Metadata> {
 
     @Expose
     @SerializedName("key")
@@ -33,7 +33,7 @@ public class ProfileMetadata<T extends Metadata> {
     @SerializedName("metadata")
     private T metadata;
 
-    public ProfileMetadata(String key, T metadata) {
+    public ConfigMetadata(String key, T metadata) {
         this.key = key;
         this.metadata = metadata;
     }
