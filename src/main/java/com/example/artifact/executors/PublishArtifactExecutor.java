@@ -19,7 +19,7 @@ package com.example.artifact.executors;
 import com.example.artifact.model.ArtifactPlan;
 import com.example.artifact.model.ArtifactStoreConfig;
 import com.example.artifact.model.PublishArtifactConfig;
-import com.example.artifact.model.ResponseMetadata;
+import com.example.artifact.model.PublishArtifactResponse;
 import com.thoughtworks.go.plugin.api.request.GoPluginApiRequest;
 import com.thoughtworks.go.plugin.api.response.DefaultGoPluginApiResponse;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
@@ -31,15 +31,17 @@ import static java.lang.String.format;
 
 public class PublishArtifactExecutor implements RequestExecutor {
     private List<PublishArtifactConfig> publishArtifactConfigs;
+    private final PublishArtifactResponse publishArtifactResponse;
 
     public PublishArtifactExecutor(GoPluginApiRequest request) {
         this.publishArtifactConfigs = PublishArtifactConfig.fromJSONList(request.requestBody());
+        publishArtifactResponse = new PublishArtifactResponse();
     }
 
     @Override
     public GoPluginApiResponse execute() {
         publish(publishArtifactConfigs);
-        return DefaultGoPluginApiResponse.success(new ResponseMetadata().toJSON());
+        return DefaultGoPluginApiResponse.success(publishArtifactResponse.toJSON());
     }
 
     private void publish(List<PublishArtifactConfig> publishArtifactConfigs) {
@@ -66,11 +68,13 @@ public class PublishArtifactExecutor implements RequestExecutor {
     private void publishArtifact(ArtifactStoreConfig artifactStoreConfig, ArtifactPlan artifactPlan) {
         try {
             LOG.info(format("Uploading artifact %s to artifact store %s.", artifactPlan, artifactStoreConfig.getDummyField()));
-            //TODO: Upload artifact to artifact store.
+            //TODO: Upload artifact to artifact store
+            //TODO: Add metadata- publishArtifactResponse.addMetadata("key", "value");
             LOG.info(format("Artifact %s is successfully uploaded to artifact store %s.", artifactPlan, artifactStoreConfig.getDummyField()));
         } catch (Exception e) {
-            LOG.error(format("Failed to upload artifact %s to artifact store %s.", artifactPlan, artifactStoreConfig.getDummyField()));
             //TODO: fail the job since upload artifact is failed ?
+            publishArtifactResponse.addError("Could not upload " + e.getMessage());
+            LOG.error(format("Failed to upload artifact %s to artifact store %s.", artifactPlan, artifactStoreConfig.getDummyField()));
         }
     }
 
