@@ -25,6 +25,7 @@ import com.thoughtworks.go.plugin.api.response.DefaultGoPluginApiResponse;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
 
 import java.util.List;
+import java.util.UUID;
 
 import static com.example.artifact.ExamplePlugin.LOG;
 import static java.lang.String.format;
@@ -67,10 +68,11 @@ public class PublishArtifactExecutor implements RequestExecutor {
 
     private void publishArtifact(ArtifactStoreConfig artifactStoreConfig, ArtifactPlan artifactPlan) {
         try {
-            LOG.info(format("Uploading artifact %s to artifact store %s.", artifactPlan, artifactStoreConfig.getDummyField()));
+            LOG.info(format("Uploading artifact using %s to artifact store with id `%s`.", artifactPlan, artifactPlan.getStoreId()));
             //TODO: Upload artifact to artifact store
             //TODO: Add metadata- publishArtifactResponse.addMetadata("key", "value");
-            LOG.info(format("Artifact %s is successfully uploaded to artifact store %s.", artifactPlan, artifactStoreConfig.getDummyField()));
+            publishArtifactResponse.addMetadata("Filename", UUID.randomUUID().toString() + ".xml");
+            LOG.info(format("Artifact %s is successfully uploaded to artifact store %s.", artifactPlan, artifactPlan.getStoreId()));
         } catch (Exception e) {
             //TODO: fail the job since upload artifact is failed ?
             publishArtifactResponse.addError("Could not upload " + e.getMessage());

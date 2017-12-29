@@ -22,15 +22,15 @@ import com.google.gson.JsonObject;
 import com.thoughtworks.go.plugin.api.response.DefaultGoPluginApiResponse;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
 
-public class GetStoreConfigViewExecutor implements RequestExecutor {
+public class GetFetchArtifactViewExecutor implements RequestExecutor {
     private static final Gson GSON = new Gson();
 
     @Override
     public GoPluginApiResponse execute() {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("template", Util.readResource("/store-config.template.html"));
-        DefaultGoPluginApiResponse defaultGoPluginApiResponse = DefaultGoPluginApiResponse.success( GSON.toJson(jsonObject));
-        return defaultGoPluginApiResponse;
+        jsonObject.addProperty("template", Util.readResource("/publish-artifact-config.template.html"));
+        return DefaultGoPluginApiResponse.success(GSON.toJson(jsonObject));
     }
 
 }
+

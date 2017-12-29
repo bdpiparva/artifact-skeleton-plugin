@@ -23,39 +23,44 @@ import com.google.gson.annotations.SerializedName;
 
 import static com.example.artifact.utils.Util.GSON;
 
-public class ArtifactStoreConfig implements Validatable {
+public class FetchArtifactConfig implements Validatable {
     @Expose
-    @SerializedName("DummyField")
-    @ProfileField(key = "DummyField", required = true, secure = false)
-    private String dummyField;
+    @SerializedName("filename")
+    @ProfileField(key = "filename", required = true, secure = false)
+    private String filename;
 
-    public ArtifactStoreConfig() {
+    public FetchArtifactConfig() {
     }
 
-    public ArtifactStoreConfig(String dummyField) {
-        this.dummyField = dummyField;
+    public FetchArtifactConfig(String filename) {
+        this.filename = filename;
     }
 
-    public String getDummyField() {
-        return dummyField;
+    public String getFilename() {
+        return filename;
+    }
+
+    @Override
+    public String toString() {
+        return this.filename;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ArtifactStoreConfig)) return false;
+        if (!(o instanceof FetchArtifactConfig)) return false;
 
-        ArtifactStoreConfig that = (ArtifactStoreConfig) o;
+        FetchArtifactConfig that = (FetchArtifactConfig) o;
 
-        return dummyField != null ? dummyField.equals(that.dummyField) : that.dummyField == null;
+        return filename != null ? filename.equals(that.filename) : that.filename == null;
     }
 
     @Override
     public int hashCode() {
-        return dummyField != null ? dummyField.hashCode() : 0;
+        return filename != null ? filename.hashCode() : 0;
     }
 
-    public static ArtifactStoreConfig fromJSON(String json) {
-        return GSON.fromJson(json, ArtifactStoreConfig.class);
+    public static FetchArtifactConfig fromJSON(String json) {
+        return GSON.fromJson(json, FetchArtifactConfig.class);
     }
 }

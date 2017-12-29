@@ -12,9 +12,8 @@ public class GetPublishArtifactViewExecutor implements RequestExecutor {
     @Override
     public GoPluginApiResponse execute() {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("template", Util.readResource("/publish-artifact-config.template.html"));
-        DefaultGoPluginApiResponse defaultGoPluginApiResponse = new DefaultGoPluginApiResponse(200, GSON.toJson(jsonObject));
-        return defaultGoPluginApiResponse;
+        jsonObject.addProperty("template", Util.readResource("/fetch-artifact.template.html"));
+        return DefaultGoPluginApiResponse.success( GSON.toJson(jsonObject));
     }
 
 }

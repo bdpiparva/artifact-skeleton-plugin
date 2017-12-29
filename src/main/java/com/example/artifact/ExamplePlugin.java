@@ -47,21 +47,23 @@ public class ExamplePlugin implements GoPlugin {
                 case REQUEST_STORE_CONFIG_VIEW:
                     return new GetStoreConfigViewExecutor().execute();
                 case REQUEST_STORE_CONFIG_VALIDATE:
-                    return null;
+                    return new ValidateArtifactStoreExecutor(request).execute();
                 case REQUEST_PUBLISH_ARTIFACT_METADATA:
                     return new GetPublishArtifactConfigMetadataExecutor().execute();
                 case REQUEST_PUBLISH_ARTIFACT_VIEW:
                     return new GetPublishArtifactViewExecutor().execute();
                 case REQUEST_PUBLISH_ARTIFACT_VALIDATE:
-                    return null;
+                    return new ValidatePublishArtifactConfigExecutor(request).execute();
                 case REQUEST_FETCH_ARTIFACT_METADATA:
-                    return null;
+                    return new GetFetchArtifactMetadataExecutor().execute();
                 case REQUEST_FETCH_ARTIFACT_VIEW:
-                    return null;
+                    return new GetFetchArtifactViewExecutor().execute();
                 case REQUEST_FETCH_ARTIFACT_VALIDATE:
-                    return null;
+                    return new ValidateFetchArtifactConfigExecutor(request).execute();
                 case REQUEST_PUBLISH_ARTIFACT:
                     return new PublishArtifactExecutor(request).execute();
+                case REQUEST_FETCH_ARTIFACT:
+                    return new FetchArtifactExecutor(request).execute();
                 default:
                     throw new UnhandledRequestTypeException(request.requestName());
             }

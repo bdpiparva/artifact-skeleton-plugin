@@ -20,8 +20,7 @@ import com.example.artifact.utils.Util;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.HashMap;
-import java.util.Map;
+import static com.example.artifact.utils.Util.isNotBlank;
 
 public class ConfigMetadata<T extends Metadata> {
 
@@ -38,14 +37,12 @@ public class ConfigMetadata<T extends Metadata> {
         this.metadata = metadata;
     }
 
-    public Map<String, String> validate(String input) {
-        HashMap<String, String> result = new HashMap<>();
+    public ValidationError validate(String input) {
         String validationError = doValidate(input);
-        if (Util.isNotBlank(validationError)) {
-            result.put("key", key);
-            result.put("message", validationError);
+        if (isNotBlank(validationError)) {
+            return new ValidationError(key, validationError);
         }
-        return result;
+        return null;
     }
 
     protected String doValidate(String input) {

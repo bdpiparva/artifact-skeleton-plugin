@@ -1,0 +1,5 @@
+<div class="form_item_block">
+    <label ng-class="{'is-invalid-label': GOINPUTNAME[filename].$error.server}">Filename:<span class='asterix'>*</span></label>
+    <input ng-class="{'is-invalid-input': GOINPUTNAME[filename].$error.server}" type="text" ng-model="filename" ng-required="true" placeholder="value"/>
+    <span class="form_error form-error" ng-class="{'is-visible': GOINPUTNAME[filename].$error.server}" ng-show="GOINPUTNAME[filename].$error.server">{{GOINPUTNAME[filename].$error.server}}</span>
+</div>

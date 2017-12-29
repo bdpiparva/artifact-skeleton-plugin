@@ -16,21 +16,23 @@
 
 package com.example.artifact.executors;
 
-import com.example.artifact.utils.Util;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+import com.example.artifact.annotation.MetadataValidator;
+import com.example.artifact.annotation.ValidationResult;
+import com.example.artifact.model.ArtifactPlanConfig;
+import com.thoughtworks.go.plugin.api.request.GoPluginApiRequest;
 import com.thoughtworks.go.plugin.api.response.DefaultGoPluginApiResponse;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
 
-public class GetStoreConfigViewExecutor implements RequestExecutor {
-    private static final Gson GSON = new Gson();
+public class ValidatePublishArtifactConfigExecutor implements RequestExecutor {
+    private final ArtifactPlanConfig artifactPlanConfig;
+
+    public ValidatePublishArtifactConfigExecutor(GoPluginApiRequest request) {
+        artifactPlanConfig = ArtifactPlanConfig.fromJSON(request.requestBody());
+    }
 
     @Override
     public GoPluginApiResponse execute() {
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("template", Util.readResource("/store-config.template.html"));
-        DefaultGoPluginApiResponse defaultGoPluginApiResponse = DefaultGoPluginApiResponse.success( GSON.toJson(jsonObject));
-        return defaultGoPluginApiResponse;
+        final ValidationResult validationResult = new MetadataValidator().validate(artifactPlanConfig);
+        return DefaultGoPluginApiResponse.success(validationResult.toJSON());
     }
-
 }

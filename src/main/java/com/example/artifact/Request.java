@@ -32,7 +32,8 @@ public enum Request {
     REQUEST_FETCH_ARTIFACT_VIEW(String.join(".", "go.cd.artifact", "fetch", "get-view")),
     REQUEST_FETCH_ARTIFACT_VALIDATE(String.join(".", "go.cd.artifact", "fetch", "validate")),
 
-    REQUEST_PUBLISH_ARTIFACT(String.join(".", "go.cd.artifact", "publish-artifact"));
+    REQUEST_PUBLISH_ARTIFACT(String.join(".", "go.cd.artifact", "publish-artifact")),
+    REQUEST_FETCH_ARTIFACT(String.join(".", "go.cd.artifact", "fetch-artifact"));
 
     private final String requestName;
 

@@ -17,10 +17,13 @@
 package com.example.artifact.model;
 
 import com.example.artifact.annotation.ProfileField;
+import com.example.artifact.annotation.Validatable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ArtifactPlanConfig {
+import static com.example.artifact.utils.Util.GSON;
+
+public class ArtifactPlanConfig implements Validatable {
     @Expose
     @SerializedName("filename")
     @ProfileField(key = "filename", required = true, secure = false)
@@ -39,7 +42,7 @@ public class ArtifactPlanConfig {
 
     @Override
     public String toString() {
-        return this.filename;
+        return toJSON();
     }
 
     @Override
@@ -55,5 +58,9 @@ public class ArtifactPlanConfig {
     @Override
     public int hashCode() {
         return filename != null ? filename.hashCode() : 0;
+    }
+
+    public static ArtifactPlanConfig fromJSON(String json) {
+        return GSON.fromJson(json, ArtifactPlanConfig.class);
     }
 }

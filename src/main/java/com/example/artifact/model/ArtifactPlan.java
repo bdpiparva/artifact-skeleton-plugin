@@ -55,10 +55,7 @@ public class ArtifactPlan {
 
     @Override
     public String toString() {
-        return "Artifact {" +
-                "id='" + id + '\'' +
-                ", artifactConfig=" + artifactPlanConfig +
-                '}';
+        return String.format("ArtifactPlan[id=%s, storeId=%s, configuration=%s]", getId(), getStoreId(), artifactPlanConfig);
     }
 
     @Override
