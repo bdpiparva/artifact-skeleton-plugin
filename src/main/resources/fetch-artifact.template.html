@@ -1,5 +1,11 @@
 <div class="form_item_block">
-    <label ng-class="{'is-invalid-label': GOINPUTNAME[filename].$error.server}">Filename:<span class='asterix'>*</span></label>
-    <input ng-class="{'is-invalid-input': GOINPUTNAME[filename].$error.server}" type="text" ng-model="filename" ng-required="true" placeholder="value"/>
-    <span class="form_error form-error" ng-class="{'is-visible': GOINPUTNAME[filename].$error.server}" ng-show="GOINPUTNAME[filename].$error.server">{{GOINPUTNAME[filename].$error.server}}</span>
+    <label ng-class="{'is-invalid-label': GOINPUTNAME[source].$error.server}">Source:<span class='asterix'>*</span></label>
+    <input ng-class="{'is-invalid-input': GOINPUTNAME[source].$error.server}" type="text" ng-model="source" ng-required="true" placeholder="value"/>
+    <span class="form_error form-error" ng-class="{'is-visible': GOINPUTNAME[source].$error.server}" ng-show="GOINPUTNAME[source].$error.server">{{GOINPUTNAME[source].$error.server}}</span>
+</div>
+
+<div class="form_item_block">
+    <label ng-class="{'is-invalid-label': GOINPUTNAME[destination].$error.server}">Destination:<span class='asterix'>*</span></label>
+    <input ng-class="{'is-invalid-input': GOINPUTNAME[destination].$error.server}" type="text" ng-model="destination" ng-required="true" placeholder="value"/>
+    <span class="form_error form-error" ng-class="{'is-visible': GOINPUTNAME[destination].$error.server}" ng-show="GOINPUTNAME[destination].$error.server">{{GOINPUTNAME[destination].$error.server}}</span>
 </div>

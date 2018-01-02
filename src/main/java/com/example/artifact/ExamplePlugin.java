@@ -17,14 +17,19 @@
 package com.example.artifact;
 
 import com.example.artifact.executors.*;
+import com.example.artifact.utils.Util;
 import com.thoughtworks.go.plugin.api.GoApplicationAccessor;
 import com.thoughtworks.go.plugin.api.GoPlugin;
 import com.thoughtworks.go.plugin.api.GoPluginIdentifier;
 import com.thoughtworks.go.plugin.api.annotation.Extension;
+import com.thoughtworks.go.plugin.api.annotation.Load;
 import com.thoughtworks.go.plugin.api.exceptions.UnhandledRequestTypeException;
+import com.thoughtworks.go.plugin.api.info.PluginContext;
 import com.thoughtworks.go.plugin.api.logging.Logger;
 import com.thoughtworks.go.plugin.api.request.GoPluginApiRequest;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
+
+import java.util.Properties;
 
 import static com.example.artifact.Constants.PLUGIN_IDENTIFIER;
 
@@ -32,6 +37,12 @@ import static com.example.artifact.Constants.PLUGIN_IDENTIFIER;
 public class ExamplePlugin implements GoPlugin {
     public static final Logger LOG = Logger.getLoggerFor(ExamplePlugin.class);
     private GoApplicationAccessor accessor;
+
+    @Load
+    public void onLoad(PluginContext ctx) {
+        final Properties properties = Util.getPluginProperties();
+        LOG.info(String.format("Loading plugin %s[%s].", properties.getProperty("name"), properties.getProperty("pluginId")));
+    }
 
     @Override
     public void initializeGoApplicationAccessor(GoApplicationAccessor accessor) {
@@ -43,13 +54,13 @@ public class ExamplePlugin implements GoPlugin {
         try {
             switch (Request.fromString(request.requestName())) {
                 case REQUEST_GET_PLUGIN_ICON:
-                    return null;
+                    return new GetPluginIconExecutor().execute();
                 case REQUEST_STORE_CONFIG_METADATA:
-                    return new GetStoreConfigMetadataExecutor().execute();
+                    return new GetArtifactStoreConfigMetadataExecutor().execute();
                 case REQUEST_STORE_CONFIG_VIEW:
-                    return new GetStoreConfigViewExecutor().execute();
+                    return new GetArtifactStoreViewExecutor().execute();
                 case REQUEST_STORE_CONFIG_VALIDATE:
-                    return new ValidateArtifactStoreExecutor(request).execute();
+                    return new ValidateArtifactStoreConfigExecutor(request).execute();
                 case REQUEST_PUBLISH_ARTIFACT_METADATA:
                     return new GetPublishArtifactConfigMetadataExecutor().execute();
                 case REQUEST_PUBLISH_ARTIFACT_VIEW:

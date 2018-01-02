@@ -20,8 +20,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class PublishArtifactConfigTest {
 
@@ -30,7 +29,7 @@ public class PublishArtifactConfigTest {
         final String json = "[\n" +
                 "  {\n" +
                 "    \"configuration\": {\n" +
-                "      \"dummy_field\": \"Bar\"\n" +
+                "      \"DummyField\": \"Bar\"\n" +
                 "    },\n" +
                 "    \"id\": \"s3-store\",\n" +
                 "    \"artifact_plans\": [\n" +
@@ -54,16 +53,16 @@ public class PublishArtifactConfigTest {
 
         final List<PublishArtifactConfig> publishArtifactConfigs = PublishArtifactConfig.fromJSONList(json);
 
-        assertThat(publishArtifactConfigs, hasSize(1));
+        assertThat(publishArtifactConfigs).hasSize(1);
 
         final PublishArtifactConfig publishArtifactConfig = publishArtifactConfigs.get(0);
-        assertThat(publishArtifactConfig.getId(), is("s3-store"));
-        assertThat(publishArtifactConfig.getArtifactStoreConfig(), is(new ArtifactStoreConfig("Bar")));
+        assertThat(publishArtifactConfig.getId()).isEqualTo("s3-store");
+        assertThat(publishArtifactConfig.getArtifactStoreConfig()).isEqualTo(new ArtifactStoreConfig("Bar"));
 
-        assertThat(publishArtifactConfig.getArtifactPlans(), hasSize(2));
-        assertThat(publishArtifactConfig.getArtifactPlans(), containsInAnyOrder(
+        assertThat(publishArtifactConfig.getArtifactPlans()).hasSize(2);
+        assertThat(publishArtifactConfig.getArtifactPlans()).containsExactlyInAnyOrder(
                 new ArtifactPlan("installers", "s3-store", new ArtifactPlanConfig("plugin.zip")),
                 new ArtifactPlan("test-reports", "s3-store", new ArtifactPlanConfig("junit.xml"))
-        ));
+        );
     }
 }

@@ -25,24 +25,34 @@ import static com.example.artifact.utils.Util.GSON;
 
 public class FetchArtifactConfig implements Validatable {
     @Expose
-    @SerializedName("filename")
-    @ProfileField(key = "filename", required = true, secure = false)
-    private String filename;
+    @SerializedName("source")
+    @ProfileField(key = "source", required = true, secure = false)
+    private String source;
+
+    @Expose
+    @SerializedName("destination")
+    @ProfileField(key = "destination", required = true, secure = false)
+    private String destination;
 
     public FetchArtifactConfig() {
     }
 
-    public FetchArtifactConfig(String filename) {
-        this.filename = filename;
+    public FetchArtifactConfig(String source, String destination) {
+        this.source = source;
+        this.destination = destination;
     }
 
-    public String getFilename() {
-        return filename;
+    public String getSource() {
+        return source;
+    }
+
+    public String getDestination() {
+        return destination;
     }
 
     @Override
     public String toString() {
-        return this.filename;
+        return this.source;
     }
 
     @Override
@@ -52,12 +62,12 @@ public class FetchArtifactConfig implements Validatable {
 
         FetchArtifactConfig that = (FetchArtifactConfig) o;
 
-        return filename != null ? filename.equals(that.filename) : that.filename == null;
+        return source != null ? source.equals(that.source) : that.source == null;
     }
 
     @Override
     public int hashCode() {
-        return filename != null ? filename.hashCode() : 0;
+        return source != null ? source.hashCode() : 0;
     }
 
     public static FetchArtifactConfig fromJSON(String json) {

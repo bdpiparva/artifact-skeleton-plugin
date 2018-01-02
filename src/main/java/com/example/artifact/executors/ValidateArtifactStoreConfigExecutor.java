@@ -16,19 +16,23 @@
 
 package com.example.artifact.executors;
 
-
+import com.example.artifact.annotation.MetadataValidator;
+import com.example.artifact.annotation.ValidationResult;
+import com.example.artifact.model.ArtifactStoreConfig;
 import com.thoughtworks.go.plugin.api.request.GoPluginApiRequest;
+import com.thoughtworks.go.plugin.api.response.DefaultGoPluginApiResponse;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
 
+public class ValidateArtifactStoreConfigExecutor implements RequestExecutor {
+    private final ArtifactStoreConfig artifactStoreConfig;
 
-public class AuthConfigValidateRequestExecutor implements RequestExecutor {
-    private final GoPluginApiRequest request;
-
-    public AuthConfigValidateRequestExecutor(GoPluginApiRequest request) {
-        this.request = request;
+    public ValidateArtifactStoreConfigExecutor(GoPluginApiRequest request) {
+        artifactStoreConfig = ArtifactStoreConfig.fromJSON(request.requestBody());
     }
 
-    public GoPluginApiResponse execute() throws Exception {
-        return null;
+    @Override
+    public GoPluginApiResponse execute() {
+        final ValidationResult validationResult = new MetadataValidator().validate(artifactStoreConfig);
+        return DefaultGoPluginApiResponse.success(validationResult.toJSON());
     }
 }

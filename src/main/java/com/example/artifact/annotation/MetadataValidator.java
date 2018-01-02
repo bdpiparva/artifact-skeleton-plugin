@@ -30,12 +30,6 @@ public class MetadataValidator {
             validationResult.addError(field.validate(properties.get(field.getKey())));
         }
 
-        Set<String> set = new HashSet<>(properties.keySet());
-        set.removeAll(knownFields);
-
-        for (String key : set) {
-            validationResult.addError(key, "Is an unknown property");
-        }
         return validationResult;
     }
 }

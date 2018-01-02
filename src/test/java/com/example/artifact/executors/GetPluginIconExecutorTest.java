@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 ThoughtWorks, Inc.
+ * Copyright 2018 ThoughtWorks, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,19 +18,21 @@ package com.example.artifact.executors;
 
 import com.example.artifact.utils.Util;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.thoughtworks.go.plugin.api.response.DefaultGoPluginApiResponse;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
+import org.junit.Test;
 
-public class GetStoreConfigViewExecutor implements RequestExecutor {
-    private static final Gson GSON = new Gson();
+import java.util.Base64;
+import java.util.HashMap;
 
-    @Override
-    public GoPluginApiResponse execute() {
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("template", Util.readResource("/store-config.template.html"));
-        DefaultGoPluginApiResponse defaultGoPluginApiResponse = DefaultGoPluginApiResponse.success( GSON.toJson(jsonObject));
-        return defaultGoPluginApiResponse;
+import static org.assertj.core.api.Assertions.assertThat;
+
+public class GetPluginIconExecutorTest {
+    @Test
+    public void rendersIconInBase64() {
+        GoPluginApiResponse response = new GetPluginIconExecutor().execute();
+        HashMap<String, String> hashMap = new Gson().fromJson(response.responseBody(), HashMap.class);
+        assertThat(hashMap).hasSize(2);
+        assertThat(hashMap.get("content_type")).isEqualTo("image/svg");
+        assertThat(Util.readResourceBytes("/plugin-icon.svg")).isEqualTo(Base64.getDecoder().decode(hashMap.get("data")));
     }
-
 }
