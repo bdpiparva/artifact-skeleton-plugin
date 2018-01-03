@@ -20,6 +20,8 @@ package com.example.artifact;
  * Enumerable that represents one of the messages that the server sends to the plugin
  */
 public enum Request {
+    REQUEST_GET_PLUGIN_ICON(String.join(".", "go.cd.artifact", "get-icon")),
+
     REQUEST_STORE_CONFIG_METADATA(String.join(".", "go.cd.artifact", "store", "get-metadata")),
     REQUEST_STORE_CONFIG_VIEW(String.join(".", "go.cd.artifact", "store", "get-view")),
     REQUEST_STORE_CONFIG_VALIDATE(String.join(".", "go.cd.artifact", "store", "validate")),

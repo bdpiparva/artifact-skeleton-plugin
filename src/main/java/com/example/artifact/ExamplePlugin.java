@@ -42,6 +42,8 @@ public class ExamplePlugin implements GoPlugin {
     public GoPluginApiResponse handle(GoPluginApiRequest request) {
         try {
             switch (Request.fromString(request.requestName())) {
+                case REQUEST_GET_PLUGIN_ICON:
+                    return null;
                 case REQUEST_STORE_CONFIG_METADATA:
                     return new GetStoreConfigMetadataExecutor().execute();
                 case REQUEST_STORE_CONFIG_VIEW:
