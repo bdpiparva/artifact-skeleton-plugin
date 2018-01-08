@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 ThoughtWorks, Inc.
+ * Copyright 2018 ThoughtWorks, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,29 +17,28 @@
 package com.example.artifact.executors;
 
 import com.thoughtworks.go.plugin.api.request.GoPluginApiRequest;
-import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
-public class PublishArtifactExecutorTest {
+public class FetchArtifactExecutorTest {
+    @Mock
     private GoPluginApiRequest request;
 
     @Before
     public void setUp() {
-        request = mock(GoPluginApiRequest.class);
+        initMocks(this);
     }
 
     @Test
-    public void shouldPublishArtifact() {
-        when(request.requestBody()).thenReturn("[]");
+    public void shouldFetchArtifact() {
+        when(request.requestBody()).thenReturn("{\"store_configuration\":{}, \"fetch_artifact_configuration\":{}, \"artifact_metadata\":{}}");
 
-        final GoPluginApiResponse response = new PublishArtifactExecutor(request).execute();
+        FetchArtifactExecutor executor = new FetchArtifactExecutor(request);
 
-        assertThat(response.responseCode()).isEqualTo(200);
-        assertThat(response.responseBody()).isEqualTo("{}");
+        executor.execute();
     }
 }

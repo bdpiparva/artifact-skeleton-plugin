@@ -16,23 +16,21 @@
 
 package com.example.artifact.executors;
 
-import com.example.artifact.annotation.MetadataValidator;
-import com.example.artifact.annotation.ValidationResult;
+import com.example.artifact.annotation.ConfigMetadata;
+import com.example.artifact.annotation.MetadataHelper;
 import com.example.artifact.model.ArtifactStoreConfig;
-import com.thoughtworks.go.plugin.api.request.GoPluginApiRequest;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.thoughtworks.go.plugin.api.response.DefaultGoPluginApiResponse;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
 
-public class ValidateArtifactStoreExecutor implements RequestExecutor {
-    private final ArtifactStoreConfig artifactStoreConfig;
+import java.util.List;
 
-    public ValidateArtifactStoreExecutor(GoPluginApiRequest request) {
-        artifactStoreConfig = ArtifactStoreConfig.fromJSON(request.requestBody());
-    }
+public class GetArtifactStoreConfigMetadataExecutor implements RequestExecutor {
+    private static final Gson GSON = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
-    @Override
     public GoPluginApiResponse execute() {
-        final ValidationResult validationResult = new MetadataValidator().validate(artifactStoreConfig);
-        return DefaultGoPluginApiResponse.success(validationResult.toJSON());
+        final List<ConfigMetadata> storeConfigMetadata = MetadataHelper.getMetadata(ArtifactStoreConfig.class);
+        return DefaultGoPluginApiResponse.success( GSON.toJson(storeConfigMetadata));
     }
 }

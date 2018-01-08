@@ -29,19 +29,19 @@ public class GetPluginIconExecutor implements RequestExecutor {
     private static final Gson GSON = new Gson();
 
     @Override
-    public GoPluginApiResponse execute() throws Exception {
+    public GoPluginApiResponse execute() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("content_type", getContentType());
         jsonObject.addProperty("data", Base64.getEncoder().encodeToString(Util.readResourceBytes(getIcon())));
-        DefaultGoPluginApiResponse defaultGoPluginApiResponse = DefaultGoPluginApiResponse.success( GSON.toJson(jsonObject));
+        DefaultGoPluginApiResponse defaultGoPluginApiResponse = DefaultGoPluginApiResponse.success(GSON.toJson(jsonObject));
         return defaultGoPluginApiResponse;
     }
 
     private String getContentType() {
-        return "image/png";
+        return "image/svg";
     }
 
     private String getIcon() {
-        return "/guest.png";
+        return "/plugin-icon.svg";
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 ThoughtWorks, Inc.
+ * Copyright 2018 ThoughtWorks, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,26 +20,34 @@ import com.thoughtworks.go.plugin.api.request.GoPluginApiRequest;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
-public class PublishArtifactExecutorTest {
+public class ValidatePublishArtifactConfigExecutorTest {
+    @Mock
     private GoPluginApiRequest request;
 
     @Before
     public void setUp() {
-        request = mock(GoPluginApiRequest.class);
+        initMocks(this);
     }
 
     @Test
-    public void shouldPublishArtifact() {
-        when(request.requestBody()).thenReturn("[]");
+    public void shouldValidateMandatoryKeys() throws Exception {
+        when(request.requestBody()).thenReturn("{}");
 
-        final GoPluginApiResponse response = new PublishArtifactExecutor(request).execute();
+        final GoPluginApiResponse response = new ValidatePublishArtifactConfigExecutor(request).execute();
 
-        assertThat(response.responseCode()).isEqualTo(200);
-        assertThat(response.responseBody()).isEqualTo("{}");
+        String expectedJSON = "[\n" +
+                "  {\n" +
+                "    \"key\": \"filename\",\n" +
+                "    \"message\": \"filename must not be blank.\"\n" +
+                "  }\n" +
+                "]";
+        JSONAssert.assertEquals(expectedJSON, response.responseBody(), JSONCompareMode.NON_EXTENSIBLE);
     }
 }

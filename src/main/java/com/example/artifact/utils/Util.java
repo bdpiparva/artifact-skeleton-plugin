@@ -52,11 +52,15 @@ public class Util {
     }
 
     public static String pluginId() {
-        String s = readResource("/plugin.properties");
+        return getPluginProperties().getProperty("pluginId");
+    }
+
+    public static Properties getPluginProperties() {
+        String propertiesAsAString = readResource("/plugin.properties");
         try {
             Properties properties = new Properties();
-            properties.load(new StringReader(s));
-            return (String) properties.get("pluginId");
+            properties.load(new StringReader(propertiesAsAString));
+            return properties;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

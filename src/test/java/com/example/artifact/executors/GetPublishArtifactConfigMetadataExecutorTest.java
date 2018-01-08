@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 ThoughtWorks, Inc.
+ * Copyright 2018 ThoughtWorks, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,30 +16,21 @@
 
 package com.example.artifact.executors;
 
-import com.thoughtworks.go.plugin.api.request.GoPluginApiRequest;
 import com.thoughtworks.go.plugin.api.response.GoPluginApiResponse;
-import org.junit.Before;
+import org.json.JSONException;
 import org.junit.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-public class PublishArtifactExecutorTest {
-    private GoPluginApiRequest request;
-
-    @Before
-    public void setUp() {
-        request = mock(GoPluginApiRequest.class);
-    }
-
+public class GetPublishArtifactConfigMetadataExecutorTest {
     @Test
-    public void shouldPublishArtifact() {
-        when(request.requestBody()).thenReturn("[]");
+    public void shouldReturnFetchArtifactMetadata() throws JSONException {
+        final GoPluginApiResponse response = new GetPublishArtifactConfigMetadataExecutor().execute();
 
-        final GoPluginApiResponse response = new PublishArtifactExecutor(request).execute();
+        final String expectedJSON = "[{\"key\":\"filename\",\"metadata\":{\"required\":true,\"secure\":false}}]";
 
         assertThat(response.responseCode()).isEqualTo(200);
-        assertThat(response.responseBody()).isEqualTo("{}");
+        JSONAssert.assertEquals(expectedJSON, response.responseBody(), true);
     }
 }
